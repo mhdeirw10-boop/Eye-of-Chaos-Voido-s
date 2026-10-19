@@ -1,0 +1,5 @@
+// CHAOS Security Facade — modules are local safeguards, not a server-side security boundary.
+(function(g){'use strict';
+ const policy=g.ChaosSecurityPolicy,input=g.ChaosSecurityInput,store=g.ChaosSecurityStorage;
+ g.ChaosSecurity={version:'1.7.0',inspectQuery(q){const raw=String(q??'');if(raw.length>12000){const result={safe:false,code:'INPUT_TOO_LONG',reason:'النص أطول من الحد المسموح.'};store?.audit('blocked-input',result.code);return result}const clean=input?input.normalize(raw):raw;const result=policy?policy.inspect(clean):{safe:true,reason:null};if(!result.safe)store?.audit('blocked-input',result.code+': '+result.reason);return result},canAccessArchive(name,level){return policy?policy.canAccessArchive(name,level):false},normalizeInput(q){return input?input.normalize(q):String(q??'').slice(0,12000)},safeURL(url){return !!input?.isSafeExternalURL(url)},audit(event,detail=''){store?.audit(event,detail);if(g.ChaosConfig?.debugMode)console.warn('[CHAOS SECURITY]',event,detail)},getAuditLog(){return store?.auditLog()||[]}};
+})(window);
