@@ -1,0 +1,33 @@
+/* Add-on styles only; original settings logic and controls remain untouched. */
+.settings-extension { margin-top: 22px; }
+.settings-extension .setting-card { margin-top: 16px; }
+.settings-extension p { line-height: 1.7; }
+.settings-extension textarea { display:block; width:100%; min-height:92px; resize:vertical; margin:12px 0; padding:12px; border:1px solid #343744; border-radius:8px; background:#090a0f; color:#f3f4f6; font:inherit; }
+.settings-extension button { max-width:100%; white-space:normal; }
+.extension-actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:12px; }
+.extension-btn { padding:10px 13px; border:1px solid #00ff66; border-radius:7px; background:#07130c; color:#00ff66; }
+.extension-btn.danger { border-color:#e05252; color:#ff8d8d; background:#1a090b; }
+.extension-status { margin-top:10px; min-height:1.5em; color:#9debb7; font-size:.9rem; overflow-wrap:anywhere; }
+.saved-memory-list { list-style:none; padding:0; margin:14px 0 0; display:grid; gap:9px; }
+.saved-memory-item { display:flex; align-items:flex-start; gap:10px; justify-content:space-between; padding:12px; border:1px solid #292d38; border-radius:8px; background:#0c0d12; }
+.saved-memory-text { flex:1; min-width:0; white-space:pre-wrap; overflow-wrap:anywhere; }
+.saved-memory-date { display:block; color:#858b9a; font-size:.75rem; margin-top:6px; }
+.saved-memory-item .extension-btn { flex:0 0 auto; padding:6px 9px; }
+.extension-muted { color:#999eac; font-size:.85rem; }
+@media (max-width:600px) {
+  .settings-container { width:100%; padding:22px 14px; }
+  .settings-container h1 { font-size:1.45rem; line-height:1.5; overflow-wrap:anywhere; }
+  .setting-card { padding:16px !important; }
+  .extension-actions { flex-direction:column; }
+  .extension-actions button { width:100%; }
+  .saved-memory-item { flex-direction:column; }
+  .saved-memory-item .extension-btn { width:100%; }
+}
+
+.diagnostics-output { max-height:360px; overflow:auto; white-space:pre-wrap; overflow-wrap:anywhere; padding:12px; border:1px solid #292d38; border-radius:8px; background:#08090e; color:#c6f5d4; font:12px/1.65 ui-monospace,monospace; }
+#chaosBackupFile { max-width:100%; }
+
+.extension-search { display:block; box-sizing:border-box; width:100%; margin:8px 0 12px; padding:10px; border:1px solid #343744; border-radius:8px; background:#090a0f; color:#f3f4f6; font:inherit; }
+
+.extension-toggle { display:flex; align-items:center; gap:10px; margin:12px 0; color:#e3e6ee; }
+.extension-toggle input { width:20px; height:20px; accent-color:#00ff66; }
