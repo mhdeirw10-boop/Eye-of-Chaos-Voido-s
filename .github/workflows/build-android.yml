@@ -1,0 +1,75 @@
+name: Build Eye of Chaos APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "cordova-project/**"
+      - ".github/workflows/build-android.yml"
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    defaults:
+      run:
+        working-directory: cordova-project
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: cordova-project/package-lock.json
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK packages
+        run: |
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          echo "ANDROID_HOME=$ANDROID_HOME" >> "$GITHUB_ENV"
+
+      - name: Install Cordova CLI
+        run: npm install --global cordova@13
+
+      - name: Install project dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Add Android platform if needed
+        run: |
+          if [ ! -d platforms/android ]; then
+            cordova platform add android@14.0.1
+          fi
+
+      - name: Build debug APK
+        run: cordova build android --debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: eye-of-chaos-debug-apk
+          path: cordova-project/platforms/android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 14
+          
