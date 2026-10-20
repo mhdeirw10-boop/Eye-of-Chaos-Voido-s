@@ -12,4 +12,3 @@ const GameLoopAndStatesEngine = (() => {
 if (typeof module !== 'undefined') module.exports = GameLoopAndStatesEngine;
 
 if (typeof window !== 'undefined') window.GameLoopAndStatesEngine = GameLoopAndStatesEngine;
-  
