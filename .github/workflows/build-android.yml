@@ -30,12 +30,10 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Set up Node.js
+      -       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: npm
-          cache-dependency-path: cordova-project/package-lock.json
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
