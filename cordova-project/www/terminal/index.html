@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="description"
+    content="نظام التحكم والترمينال - عين الفوضى">
+
+<title>CHAOS SYSTEM | عين الفوضى</title>
+
+<link rel="stylesheet" href="../css/theme.css">
+<link rel="stylesheet" href="../css/layout.css">
+
+
+<style>
+
+/* ==========================================================
+   1. واجهة الترمينال
+   ========================================================== */
+
+.terminal-wrapper {
+
+    padding: 120px 6% 60px;
+
+    display: flex;
+
+    justify-content: center;
+
+}
+
+
+/* ==========================================================
+   2. القائمة العلوية الخاصة بالـTerminal
+   ========================================================== */
+
+#terminalTopNav {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+}
+
+
+/* ==========================================================
+   3. الهاتف
+   إخفاء روابط الـTerminal العلوية
+   ========================================================== */
+
+@media (max-width: 750px) {
+
+    #terminalTopNav {
+
+        display: none !important;
+
+    }
+
+}
+
+
+/* ==========================================================
+   4. سجل محادثات CHAOS SYSTEM
+   ========================================================== */
+
+.history-sidebar {
+
+    position: fixed;
+
+    top: 0;
+
+    right: -300px;
+
+    width: 280px;
+
+    max-width: 85vw;
+
+    height: 100vh;
+
+    background: #0d0d12;
+
+    border-left: 1px solid #1a1a24;
+
+    transition: right 0.3s ease;
+
+    z-index: 300;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+.history-sidebar.active {
+
+    right: 0;
+
+}
+
+
+/* ==========================================================
+   5. رأس سجل المحادثات
+   ========================================================== */
+
+.history-sidebar-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    border-bottom: 1px solid #1a1a24;
+
+    padding-bottom: 10px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.history-sidebar-header h3 {
+
+    margin: 0;
+
+    font-size: 16px;
+
+    color: #00ff66;
+
+}
+
+
+/* ==========================================================
+   6. زر إغلاق سجل المحادثات
+   ========================================================== */
+
+#closeHistorySidebar {
+
+    background: none;
+
+    border: 1px solid #333;
+
+    color: #fff;
+
+    width: 34px;
+
+    height: 34px;
+
+    border-radius: 4px;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+}
+
+
+#closeHistorySidebar:hover {
+
+    color: #00ff66;
+
+    border-color: #00ff66;
+
+}
+
+
+/* ==========================================================
+   7. زر محادثة جديدة
+   ========================================================== */
+
+#newChatBtn {
+
+    width: 100%;
+
+    margin-bottom: 15px;
+
+    padding: 8px;
+
+    background: transparent;
+
+    border: 1px solid #00ff66;
+
+    color: #00ff66;
+
+    border-radius: 4px;
+
+    cursor: pointer;
+
+}
+
+
+#newChatBtn:hover {
+
+    background: #0d1a12;
+
+}
+
+
+/* ==========================================================
+   8. قائمة سجل المحادثات
+   ========================================================== */
+
+.history-list {
+
+    list-style: none;
+
+    padding: 0;
+
+    margin: 0;
+
+    overflow-y: auto;
+
+    flex-grow: 1;
+
+}
+
+
+.history-item {
+
+    padding: 8px 10px;
+
+    margin-bottom: 8px;
+
+    background: #13131a;
+
+    border: 1px solid #1a1a24;
+
+    color: #fff;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    border-radius: 4px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+.history-item:hover,
+.history-item.active {
+    border-color: #00ff66;
+}
+
+.history-item.active {
+    background: #0d1a12;
+}
+
+.history-item:focus-visible {
+    outline: 2px solid #00ff66;
+    outline-offset: 2px;
+}
+
+
+/* ==========================================================
+   9. رابط العودة داخل سجل المحادثات
+   ========================================================== */
+
+.back-link {
+
+    display: block;
+
+    text-align: center;
+
+    margin-top: 15px;
+
+    padding: 10px;
+
+    border: 1px solid #333;
+
+    color: #888;
+
+    text-decoration: none;
+
+    border-radius: 4px;
+
+}
+
+
+.back-link:hover {
+
+    color: #00ff66;
+
+    border-color: #00ff66;
+
+}
+
+
+/* ==========================================================
+   10. شريط الإدخال والإرسال
+   ========================================================== */
+
+.terminal-input-row {
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 12px 15px;
+
+    border-top: 1px solid #333;
+
+    color: #00ff66;
+}
+
+.terminal-prompt {
+
+    flex: 0 0 auto;
+
+    color: #00ff66;
+
+    font-family: monospace;
+
+    user-select: none;
+}
+
+.terminal-input-row input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    background: transparent;
+
+    border: 0;
+
+    outline: 0;
+
+    color: #fff;
+
+    font: inherit;
+}
+
+.terminal-input-row input::placeholder {
+
+    color: #777;
+}
+
+#sendBtn {
+
+    flex: 0 0 auto;
+
+    width: 40px;
+    height: 36px;
+
+    padding: 0;
+
+    background: transparent;
+
+    border: 1px solid #00ff66;
+
+    color: #00ff66;
+
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.1s ease;
+}
+
+#sendBtn:hover {
+
+    background: #00ff66;
+
+    color: #050507;
+}
+
+#sendBtn:active {
+
+    transform: scale(0.94);
+}
+
+#sendBtn:focus-visible {
+
+    outline: 2px solid #fff;
+
+    outline-offset: 2px;
+}
+
+@media (max-width: 750px) {
+
+    .terminal-input-row {
+
+        padding: 12px;
+
+    }
+
+    #sendBtn {
+
+        width: 42px;
+        height: 38px;
+
+    }
+}
+
+
+/* v1.3: conversation management controls */
+.history-search-label { display:block; margin:0 0 6px; color:#9ba5b7; font-size:12px; }
+.history-search { width:100%; box-sizing:border-box; padding:10px; margin-bottom:10px; border:1px solid #30313d; border-radius:6px; background:#090a10; color:#f4f5f7; font:inherit; }
+.history-empty { padding:12px; color:#9ba5b7; font-size:13px; }
+.history-item { padding:8px; white-space:normal; }
+.history-select { width:100%; padding:6px; border:0; background:transparent; color:inherit; text-align:right; font:inherit; cursor:pointer; overflow-wrap:anywhere; }
+.history-actions { display:flex; gap:6px; margin-top:6px; }
+.history-action { padding:4px 7px; border:1px solid #343744; border-radius:4px; background:#171820; color:#d6d9e0; font-size:11px; cursor:pointer; }
+.history-action.danger { border-color:#633238; color:#ff9b9b; }
+.terminal-status { min-height:1em; margin:6px 0; color:#8ddca9; font-size:12px; overflow-wrap:anywhere; }
+.history-sidebar { overflow-y:auto; }
+
+</style>
+
+    <link rel="manifest" href="../manifest.webmanifest">
+    <meta name="theme-color" content="#090a10">
+<script>
+try { if (localStorage.getItem('chaosTheme') === 'light-text') document.addEventListener('DOMContentLoaded', () => document.body.classList.add('theme-light-text'), { once: true }); } catch (_) {}
+</script>
+
+</head>
+
+<body>
+
+
+<!-- ==========================================================
+     HEADER
+     ========================================================== -->
+
+<header>
+
+
+    <!-- شعار CHAOS SYSTEM -->
+
+    <a
+        class="logo"
+        href="../index.html">
+
+        CHAOS <b>SYSTEM</b>
+
+    </a>
+
+
+    <!-- زر سجل المحادثات: الاستخدام الوحيد لقائمة CHAOS SYSTEM -->
+    <button
+        id="menu"
+        type="button"
+        aria-label="فتح سجل المحادثات"
+        aria-controls="historySidebar"
+        aria-expanded="false"
+        title="سجل المحادثات">
+        ≡
+    </button>
+
+
+    <!-- ======================================================
+         القائمة العلوية الخاصة بالـTerminal
+         تختفي على الهاتف
+         ====================================================== -->
+
+    <nav id="terminalTopNav">
+
+
+        <!-- سجل المحادثات -->
+
+        <button
+            id="openHistorySidebar"
+            type="button"
+            aria-controls="historySidebar"
+            aria-expanded="false"
+            style="
+                background:none;
+                border:1px solid #00ff66;
+                color:#00ff66;
+                padding:4px 8px;
+                border-radius:4px;
+                cursor:pointer;
+            "
+            data-i18n="historyBtn">
+
+            📜 السجل
+
+        </button>
+
+
+        <!-- العودة للموقع -->
+
+        <a
+            href="../index.html"
+            style="
+                color:#00ff66;
+                text-decoration:none;
+            "
+            data-i18n="backBtn">
+
+            ← العودة للموقع الرئيسي
+
+        </a>
+
+
+        <!-- اللغة -->
+
+        <button
+            id="langToggle"
+            style="
+                background:none;
+                border:1px solid #00ff66;
+                color:#00ff66;
+                padding:4px 8px;
+                border-radius:4px;
+                cursor:pointer;
+            "
+            data-i18n="langBtn">
+
+            🌐 English
+
+        </button>
+
+
+    </nav>
+
+</header>
+
+
+<!-- ==========================================================
+     TERMINAL
+     ========================================================== -->
+
+<main class="terminal-wrapper">
+
+
+    <div
+        class="terminal"
+        style="width: 100%;">
+
+
+        <div>
+
+            SYSTEM ARCHIVE // TERMINAL v1.3.0
+
+        </div>
+
+
+        <pre id="out">> SYSTEM READY...
+> Type 'help' to view available commands.</pre>
+
+
+        <div class="terminal-input-row">
+
+            <span class="terminal-prompt" aria-hidden="true">&gt;</span>
+
+            <input
+                type="text"
+                id="cmd"
+                data-i18n-ph="inputPlaceholder"
+                placeholder="اكتب أمرك هنا..."
+                autofocus
+                autocomplete="off"
+                enterkeyhint="send"
+                aria-label="أدخل رسالتك">
+
+            <button
+                type="button"
+                id="sendBtn"
+                aria-label="إرسال"
+                title="إرسال">
+
+                ↵
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+<!-- ==========================================================
+     HISTORY SIDEBAR
+     سجل محادثات CHAOS SYSTEM
+     ========================================================== -->
+
+<aside
+    id="historySidebar"
+    class="history-sidebar"
+    aria-label="سجل المحادثات">
+
+
+    <div class="history-sidebar-header">
+
+
+        <h3
+            data-i18n="sidebarTitle">
+
+            سجل المحادثات
+
+        </h3>
+
+
+        <button
+            id="closeHistorySidebar"
+            aria-label="إغلاق سجل المحادثات">
+
+            ×
+
+        </button>
+
+
+    </div>
+
+
+    <!-- محادثة جديدة -->
+
+    <button
+        id="newChatBtn"
+        data-i18n="newChatBtn">
+
+        + محادثة جديدة
+
+    </button>
+
+    <label class="history-search-label" for="historySearch">البحث في المحادثات</label>
+    <input id="historySearch" class="history-search" type="search" placeholder="عنوان أو كلمة من رسالة…" autocomplete="off">
+
+    <p id="terminalStatus" class="terminal-status" role="status" aria-live="polite"></p>
+
+    <!-- قائمة المحادثات -->
+
+    <ul
+        id="historyList"
+        class="history-list">
+
+    </ul>
+
+
+
+</aside>
+
+
+<!-- ==========================================================
+     FOOTER
+     ========================================================== -->
+
+<footer>
+
+
+    <p>
+
+        &copy;
+
+        <span id="year"></span>
+
+        EYE OF CHAOS. All rights reserved.
+
+    </p>
+
+
+</footer>
+
+
+<!-- ==========================================================
+     CHAOS SYSTEM CORE
+     ========================================================== -->
+
+<script src="../js/config.js"></script>
+
+<script src="../js/brain/canon.js"></script>
+
+
+
+<script src="../js/brain/translator.js"></script>
+
+<script src="../js/brain/knowledge.js"></script>
+
+<script src="../js/brain/hippocampus/memory.js"></script>
+
+<script src="../js/brain/generator.js"></script>
+
+<script src="../js/brain/coreEngine.js"></script>
+  
+<script src="../js/brain/aiPersona.js"></script>
+<script src="../js/brain/context.js"></script>
+<script src="../js/brain/emotions.js"></script>
+<script src="../js/brain/commands.js"></script>
+<script src="../js/brain/diagnostics.js"></script>
+
+<script src="../js/brain/hippocampus/webMemory.js"></script>
+
+<script src="../js/brain/webSearch.js"></script>
+
+<script src="../js/brain/hippocampus/longTerm.js"></script>
+
+<script src="../js/brain/hippocampus/hippocampus.js"></script>
+
+
+<!-- ==========================================================
+     KEYBOARD / INPUT ENGINE
+     virtualKey.js = مراقبة إدخال اختيارية
+     textEngine.js = تحليل اللغة والتعلم المحلي
+     ========================================================== -->
+
+<script src="../js/brain/keyboard/textEngine.js"></script>
+<script src="../js/brain/keyboard/virtualKey.js"></script>
+
+
+<!-- التشغيل المركزي -->
+
+<script src="../js/brain/hippocampus/savedMemory.js"></script>
+<script src="../js/brain/hauntingPersona.js"></script>
+<script src="../js/brain/engine/games/Physics &amp; Collisions.js"></script>
+<script src="../js/brain/engine/games/GDScript Analyzer.js"></script>
+<script src="../js/brain/engine/games/Game Loop &amp; States.js"></script>
+<script src="../js/brain/engine/games/Nodes &amp; Movement.js"></script>
+<script src="../js/terminalLanguage.js"></script>
+<script src="../js/app.js"></script>
+
+
+
+
+
+
+
+
+<script>
+// Progressive Web App support is available on HTTPS/localhost; file:// previews skip it safely.
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('../sw.js').catch(error => console.warn('[Eye of Chaos] Offline cache unavailable:', error)));
+}
+</script>
+<script src="../js/brain/security/policy.js"></script>
+<script src="../js/brain/security/input.js"></script>
+<script src="../js/brain/security/storage.js"></script>
+<script src="../js/brain/security/index.js"></script>
+<script src="../js/kernel/eventBus.js"></script>
+<script src="../js/kernel/resultBus.js"></script>
+<script src="../js/kernel/serviceRegistry.js"></script>
+<script src="../js/kernel/intentEngine.js"></script>
+<script src="../js/kernel/taskRouter.js"></script>
+<script src="../js/kernel/diagnostics.js"></script>
+<script src="../js/kernel/kernel.js"></script>
+<script src="../js/chaos-layer.js"></script>
+</body>
+
+</html>
