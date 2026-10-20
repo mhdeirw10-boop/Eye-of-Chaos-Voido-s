@@ -1,0 +1,23 @@
+{
+  "name": "eye-of-chaos-voidos",
+  "displayName": "Eye of Chaos / VoidOS",
+  "version": "2.0.0",
+  "description": "VoidOS web shell and CHAOS SYSTEM by Void Walker",
+  "private": true,
+  "scripts": {
+    "prepare:android": "cordova prepare android",
+    "build:android": "cordova build android",
+    "build:android:debug": "cordova build android --debug"
+  },
+  "devDependencies": {
+    "cordova": "^12.0.0",
+    "cordova-android": "^14.0.1"
+  },
+  "cordova": {
+    "platforms": ["android"],
+    "plugins": {
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-whitelist": {}
+    }
+  }
+}
