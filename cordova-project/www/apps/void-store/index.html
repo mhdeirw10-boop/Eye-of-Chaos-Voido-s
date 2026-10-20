@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1018">
+  <meta name="description" content="Void Store — متجر ويب مستقل للتطبيقات والألعاب والأدوات.">
+  <title>Void Store — اكتشف شيئًا جديدًا</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Void Store الصفحة الرئيسية">
+      <span class="brand-mark">V<span>✦</span></span>
+      <span class="brand-copy"><strong>Void Store</strong><small>متجر التطبيقات المستقل</small></span>
+    </a>
+    <div class="top-actions">
+      <button id="accountButton" class="quiet-button" type="button"><span aria-hidden="true">◉</span> <span id="accountButtonText">حسابي</span></button>
+      <button id="themeButton" class="icon-button" type="button" aria-label="تغيير المظهر" title="تغيير المظهر">◐</button>
+    </div>
+  </header>
+
+  <main id="home" class="shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="live-dot"></span> اكتشف • جرّب • أنشئ</p>
+        <h1>مساحتك الجديدة<br><span>للتطبيقات والألعاب.</span></h1>
+        <p class="hero-description">تصفّح أدوات وتجارب رقمية من مطورين مختلفين. متجر مستقل يتطور خطوةً خطوة.</p>
+        <div class="hero-actions"><a class="button button-primary" href="#catalog">استكشف المتجر <span aria-hidden="true">←</span></a><button id="showFavoritesHero" class="button button-secondary" type="button">مفضلتي ♡</button></div>
+        <div class="hero-meta"><span>✦ مكتبة تجريبية</span><span>◈ واجهة عربية</span><span>⌁ لا يلزم حساب للتصفح</span></div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="hero-core"><span>V</span><small>VOID</small></div>
+        <div class="float-chip chip-one">✦ تطبيقات</div><div class="float-chip chip-two">▣ ألعاب</div><div class="float-chip chip-three">⌘ أدوات</div>
+      </div>
+    </section>
+
+    <section class="notice-banner">
+      <div class="notice-symbol">✳</div><div class="notice-copy"><strong>نسخة V1.0 — تجريبية</strong><p>بيانات التطبيقات الحالية للعرض والتجربة. التنزيل الحقيقي يتطلب رابط ملف صالحًا.</p></div><span class="version-pill">V1.0</span>
+    </section>
+
+    <section id="catalog" class="catalog-section">
+      <div class="section-heading"><div><p class="eyebrow">مكتبة Void Store</p><h2 id="viewTitle">اكتشف التطبيقات</h2><p id="viewDescription" class="section-subtitle">اختر ما يناسبك من التطبيقات والألعاب والأدوات.</p></div><div class="catalog-count"><strong id="resultCount">0</strong><span>عنصر</span></div></div>
+      <div class="toolbar">
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="ابحث عن اسم أو مطوّر أو وصف..." autocomplete="off"><kbd>/</kbd></label>
+        <label class="sort-box"><span>الترتيب</span><select id="sortSelect"><option value="featured">المميزة أولًا</option><option value="name">الاسم: أ ← ي</option><option value="newest">الأحدث إصدارًا</option></select></label>
+      </div>
+      <nav class="category-nav" aria-label="تصنيفات المتجر">
+        <button class="category-button active" data-filter="all" type="button">الكل <span>8</span></button>
+        <button class="category-button" data-filter="apps" type="button">تطبيقات</button>
+        <button class="category-button" data-filter="games" type="button">ألعاب</button>
+        <button class="category-button" data-filter="tools" type="button">أدوات</button>
+      </nav>
+      <div id="appGrid" class="app-grid" aria-live="polite"></div>
+      <div id="emptyState" class="empty-state hidden"><div>⌕</div><h3>لم نعثر على نتائج</h3><p>جرّب كلمة أخرى أو اختر تصنيفًا مختلفًا.</p><button id="resetFilters" class="button button-secondary" type="button">إعادة ضبط البحث</button></div>
+    </section>
+
+    <section class="developer-strip"><div class="developer-icon">＋</div><div><strong>هل تطوّر تطبيقًا؟</strong><p>مساحة المطوّرين قيد التخطيط؛ لا يوجد رفع أو نشر مركزي في هذه النسخة.</p></div><span class="coming-soon">قريبًا</span></section>
+    <footer class="footer"><a class="footer-brand" href="#home">VOID STORE <span>V1.0</span></a><p>مشروع مستقل قيد التطوير — البيانات المعروضة تجريبية.</p><a href="#home">العودة إلى الأعلى ↑</a></footer>
+  </main>
+
+  <div id="appModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-backdrop" data-close="app" aria-label="إغلاق التفاصيل" type="button"></button>
+    <article class="dialog app-dialog"><button class="close-button" data-close="app" type="button" aria-label="إغلاق">×</button>
+      <div class="detail-heading"><div id="modalIcon" class="app-icon detail-icon"></div><div><p id="modalCategory" class="eyebrow"></p><h2 id="modalTitle">اسم التطبيق</h2><p id="modalDeveloper" class="detail-developer"></p></div></div>
+      <div class="detail-stats"><div><small>الإصدار</small><strong id="modalVersion"></strong></div><div><small>المنصة</small><strong id="modalPlatform"></strong></div><div><small>التصنيف</small><strong id="modalCategoryName"></strong></div></div>
+      <section class="detail-section"><h3>عن التطبيق</h3><p id="modalDescription"></p></section>
+      <section class="detail-section"><h3>معلومات إضافية</h3><p id="modalLongDescription"></p><p class="detail-warning">تنبيه: هذا عنصر تجريبي. تحقّق من مصدر التطبيق قبل تثبيت أي ملف APK.</p></section>
+      <div class="detail-actions"><button id="modalDownloadButton" class="button button-primary" type="button">تنزيل التطبيق</button><button id="modalLibraryButton" class="button button-secondary" type="button">＋ إلى مكتبتي</button><button id="modalFavoriteButton" class="button button-secondary" type="button">♡ المفضلة</button></div>
+      <p id="modalStatus" class="modal-status" aria-live="polite"></p>
+    </article>
+  </div>
+
+  <div id="accountModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
+    <button class="modal-backdrop" data-close="account" aria-label="إغلاق الحساب" type="button"></button>
+    <article class="dialog account-dialog"><button class="close-button" data-close="account" type="button" aria-label="إغلاق">×</button>
+      <p class="eyebrow">مساحة المستخدم</p><h2 id="accountTitle">حساب تجريبي</h2><p class="muted">الحساب محفوظ على هذا المتصفح فقط، ولا يتصل بخادم.</p><p id="accountNotice" class="notice-message hidden" aria-live="polite"></p>
+      <form id="signupForm"><label>اسم المستخدم<input id="signupUsername" required minlength="2" maxlength="24" autocomplete="username"></label><label>البريد الإلكتروني التجريبي<input id="signupEmail" type="email" required placeholder="you@example.com" autocomplete="email"></label><label>كلمة مرور تجريبية<input id="signupPassword" type="password" required minlength="8" autocomplete="new-password"></label><button class="button button-primary full-width" type="submit">إنشاء حساب تجريبي</button></form>
+      <form id="loginForm" class="hidden"><label>اسم المستخدم<input id="loginUsername" required autocomplete="username"></label><label>كلمة المرور التجريبية<input id="loginPassword" type="password" required autocomplete="current-password"></label><button class="button button-primary full-width" type="submit">تسجيل الدخول</button></form>
+      <div id="profilePanel" class="hidden"><div id="profileAvatar" class="profile-avatar">V</div><h3 id="profileName" class="profile-name"></h3><p id="profileEmail" class="profile-email"></p><form id="editProfileForm"><label>تغيير اسم المستخدم<input id="editUsername" required minlength="2" maxlength="24"></label><button class="button button-secondary full-width" type="submit">حفظ الاسم</button></form><button id="logoutButton" class="button button-secondary full-width" type="button">تسجيل الخروج</button><button id="deleteAccountButton" class="button button-danger full-width" type="button">حذف الحساب التجريبي</button></div>
+      <div id="accountSwitch" class="account-switch"><span id="switchPrompt">لديك حساب بالفعل؟</span> <button id="switchModeButton" type="button">تسجيل الدخول</button></div>
+      <p class="security-warning">تنبيه: تُحفظ كلمة المرور كبصمة محلية PBKDF2 عند توفر Web Crypto. الحساب تجريبي بلا خادم؛ لا تستخدم بيانات حساسة.</p>
+    </article>
+  </div>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+  <script src="js/app.js"></script>
+<script src="../../js/brain/security/policy.js"></script>
+<script src="../../js/brain/security/input.js"></script>
+<script src="../../js/brain/security/storage.js"></script>
+<script src="../../js/brain/security/index.js"></script>
+<script>window.addEventListener('DOMContentLoaded',()=>{try{const p=JSON.parse(localStorage.getItem('voidos_store_pending_search_v1')||'null');if(!p||!p.query||Date.now()-p.created>120000)return;localStorage.removeItem('voidos_store_pending_search_v1');const input=document.getElementById('searchInput');if(input){input.value=String(p.query).slice(0,100);input.dispatchEvent(new Event('input',{bubbles:true}));}const title=document.getElementById('viewTitle');const desc=document.getElementById('viewDescription');if(title)title.textContent=p.intent==='download'?'نتائج طلب التنزيل':'نتائج البحث';if(desc)desc.textContent='بحث موجه من CHAOS SYSTEM. العناصر التجريبية التي لا تملك حزمة فعلية لا يمكن تنزيلها.';}catch(e){console.warn('[Void Store] CHAOS search handoff failed',e)}});</script>
+<script src="../../js/kernel/eventBus.js"></script><script src="../../js/kernel/resultBus.js"></script><script src="../../js/kernel/serviceRegistry.js"></script><script src="../../js/kernel/intentEngine.js"></script><script src="../../js/kernel/taskRouter.js"></script><script src="../../js/kernel/diagnostics.js"></script><script src="../../js/kernel/kernel.js"></script><script src="../../js/chaos-layer.js"></script>
+</body>
+                                    </html>
+                                                 
