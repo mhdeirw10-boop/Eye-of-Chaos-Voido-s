@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101114">
+  <meta name="description" content="VoidTube — منصة فيديو تجريبية قابلة للتطوير">
+  <title>VoidTube — عالم الفيديو</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="icon-btn menu-btn" id="menuToggle" aria-label="فتح القائمة">☰</button>
+    <a class="brand" href="#" data-view="home" aria-label="VoidTube الصفحة الرئيسية">
+      <span class="brand-mark">V</span><span>Void<span class="brand-accent">Tube</span></span>
+    </a>
+    <form class="search" id="searchForm" role="search">
+      <input id="searchInput" type="search" placeholder="ابحث عن فيديو..." autocomplete="off" aria-label="ابحث عن فيديو">
+      <button type="submit" aria-label="بحث">⌕</button>
+    </form>
+    <div class="top-actions">
+      <button class="icon-btn" id="themeToggle" aria-label="تغيير المظهر" title="تغيير المظهر">◐</button>
+      <button class="upload-btn" id="uploadTrigger">＋ <span>إضافة فيديو</span></button>
+      <input type="file" id="localVideoInput" accept="video/*" hidden>
+    </div>
+  </header>
+
+  <div class="app-layout">
+    <aside class="sidebar" id="sidebar">
+      <button class="nav-item active" data-view="home"><span>⌂</span> الرئيسية</button>
+      <button class="nav-item" data-view="trending"><span>↗</span> الأكثر مشاهدة</button>
+      <button class="nav-item" data-view="saved"><span>▣</span> المحفوظات</button>
+      <button class="nav-item" data-view="liked"><span>♡</span> أعجبني</button>
+      <button class="nav-item" data-view="disliked"><span>⊖</span> لم يعجبني</button>
+      <button class="nav-item" data-view="subscriptions"><span>▤</span> اشتراكاتي</button>
+      <button class="nav-item" data-view="history"><span>◷</span> سجل المشاهدة</button>
+      <div class="side-divider"></div>
+      <p class="side-label">استكشف</p>
+      <button class="nav-item category-link" data-category="ألعاب"><span>▣</span> الألعاب</button>
+      <button class="nav-item category-link" data-category="تقنية"><span>⌘</span> التقنية</button>
+      <button class="nav-item category-link" data-category="تعليم"><span>✎</span> التعليم</button>
+      <button class="nav-item category-link" data-category="ترفيه"><span>☆</span> الترفيه</button>
+      <div class="sidebar-footer">
+        <strong>VoidTube</strong>
+        <span>نسخة تجريبية 0.2</span>
+        <small>مشروع مستقل قيد التطوير</small>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="chips" id="chips">
+        <button class="chip selected" data-category="الكل">الكل</button>
+        <button class="chip" data-category="ألعاب">ألعاب</button>
+        <button class="chip" data-category="تقنية">تقنية</button>
+        <button class="chip" data-category="تعليم">تعليم</button>
+        <button class="chip" data-category="ترفيه">ترفيه</button>
+        <button class="chip" data-category="طبيعة">طبيعة</button>
+      </div>
+      <section class="welcome" id="welcome">
+        <div>
+          <p class="eyebrow">منصتك، بطريقتك</p>
+          <h1>مرحبًا بك في <span>VoidTube</span></h1>
+          <p>نموذج أولي لمنصة فيديو عربية. اختر فيديو من هاتفك، وجرّب التفاعل مع القنوات محليًا.</p>
+          <p class="limit-note">الحد الأقصى للمدة: 60 دقيقة لكل فيديو.</p>
+        </div>
+        <div class="welcome-symbol" aria-hidden="true">▶</div>
+      </section>
+      <div class="section-heading">
+        <div><h2 id="sectionTitle">فيديوهات مقترحة</h2><p id="resultCount">مجموعة تجريبية لتجربة الواجهة</p></div>
+        <select id="sortSelect" aria-label="ترتيب الفيديوهات">
+          <option value="default">الترتيب الافتراضي</option>
+          <option value="views">الأكثر مشاهدة</option>
+          <option value="title">الاسم أبجديًا</option>
+        </select>
+      </div>
+      <div class="video-grid" id="videoGrid" aria-live="polite"></div>
+      <div class="empty-state" id="emptyState" hidden>
+        <div class="empty-icon">⌕</div><h3>ما لقينا فيديوهات هنا</h3><p>جرّب كلمة بحث ثانية أو غيّر التصنيف.</p>
+        <button class="primary-btn" id="resetFilters">عرض كل الفيديوهات</button>
+      </div>
+      <footer class="page-footer">VoidTube © <span id="year"></span> · نموذج تجريبي محلي</footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="playerModal" hidden>
+    <section class="player-dialog" role="dialog" aria-modal="true" aria-labelledby="playerTitle">
+      <button class="modal-close" id="closePlayer" aria-label="إغلاق">×</button>
+      <div class="player-frame" id="playerFrame"></div>
+      <div class="player-details">
+        <div class="player-heading">
+          <h2 id="playerTitle">عنوان الفيديو</h2>
+          <p id="playerMeta"></p>
+          <button class="subscribe-btn" id="subscribeButton">＋ اشتراك</button>
+          <span class="subscriber-count" id="subscriberCount"></span>
+        </div>
+        <div class="player-actions">
+          <button class="action-btn" id="playerLike" aria-pressed="false">♡ أعجبني <span class="action-count" id="likeCount">0</span></button>
+          <button class="action-btn" id="playerDislike" aria-pressed="false">⊖ لم يعجبني <span class="action-count" id="dislikeCount">0</span></button>
+          <button class="action-btn" id="playerSave">▣ حفظ</button>
+        </div>
+      </div>
+      <p class="description" id="playerDescription"></p>
+      <div class="comments-area">
+        <h3>تعليقات تجريبية</h3>
+        <form id="commentForm"><input id="commentInput" maxlength="180" placeholder="اكتب تعليقًا لهذه الجلسة..." required><button type="submit">إضافة</button></form>
+        <div id="commentsList" class="comments-list"></div>
+        <small>التعليقات في هذا النموذج مؤقتة ولا تُرفع إلى خادم.</small>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="js/videos.js"></script>
+  <script src="js/app.js"></script>
+<script src="../../js/brain/security/policy.js"></script>
+<script src="../../js/brain/security/input.js"></script>
+<script src="../../js/brain/security/storage.js"></script>
+<script src="../../js/brain/security/index.js"></script>
+<script src="../../js/kernel/eventBus.js"></script><script src="../../js/kernel/resultBus.js"></script><script src="../../js/kernel/serviceRegistry.js"></script><script src="../../js/kernel/intentEngine.js"></script><script src="../../js/kernel/taskRouter.js"></script><script src="../../js/kernel/diagnostics.js"></script><script src="../../js/kernel/kernel.js"></script><script src="../../js/chaos-layer.js"></script>
+</body>
+</html>
